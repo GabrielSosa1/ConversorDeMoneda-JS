@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/estilo.css">
     <title>Proyecto JS | Conversor de Moneda</title>
 </head>
 
@@ -11,7 +12,40 @@
     <header>
         <h1>Conversor de Moneda</h1>
     </header>
+
+    <main>
+        <section>
+            <div>
+                <label for="monto">Monto:</label>
+                <input type="number" id="monto" placeholder="Ingrese el monto" step="0.01">
+            </div>
+
+            <div>
+                <label for="moneda_origen">Moneda de Origen:</label>
+                <select id="moneda_origen">
+                    <option value="arg">ARG - Peso argentino</option>
+                    <option value="usd">USD - Dólar estadounidense</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="moneda_destino">Moneda de Destino:</label>
+                <select id="moneda_destino">
+                    <option value="arg">ARG - Peso argentino</option>
+                    <option value="usd">USD - Dólar estadounidense</option>
+                </select>
+            </div>
+
+            <button id="convertir">Convertir</button>
+
+            <div>
+                <p>Resultado:</p>
+                <p id="resultado"></p>
+            </div>
+
+        </section>
+    </main>
 </body>
 <script src="./JS/main.js"></script>
 
-</html>
+</html >
