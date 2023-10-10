@@ -1,5 +1,6 @@
 console.log("Conversor inicio");
 console.log("----------");
+
 // Objeto para manejar las tasas de cambio
 const tasasDeCambio = {
     ars: 1,
@@ -33,8 +34,9 @@ function mostrarMensajeEnPaginaYConsola(mensaje) {
 function imprimirHistorialYConversionesEnConsola() {
     console.group("Conversiones Realizadas");
 
-    historialConversiones.forEach((conversion, index) => {
-        console.log(`${conversion.cantidad} ${conversion.monedaOrigen} a ${conversion.resultado} ${conversion.monedaDestino}`);
+    historialConversiones.forEach((conversion) => {
+        const hora = new Date().toLocaleTimeString();
+        console.log(`${hora}: ${conversion.cantidad} ${conversion.monedaOrigen} a ${conversion.resultado} ${conversion.monedaDestino}`);
     });
 
     console.groupEnd();
@@ -50,8 +52,6 @@ function convertir() {
 
     if (!isNaN(cantidad) && tasasDeCambio.hasOwnProperty(monedaOrigen) && tasasDeCambio.hasOwnProperty(monedaDestino)) {
         const resultado = (cantidad * (tasasDeCambio[monedaOrigen] / tasasDeCambio[monedaDestino])).toFixed(2);
-
-        mostrarMensajeEnPaginaYConsola(`${cantidad} ${monedaOrigen.toUpperCase()} equivale a ${resultado} ${monedaDestino.toUpperCase()}.`);
 
         // Agrega la conversión al historial
         const conversion = {
@@ -92,6 +92,9 @@ window.addEventListener('load', () => {
 window.addEventListener('beforeunload', () => {
     localStorage.removeItem('historialConversiones');
 });
+
+
+
 
 
 

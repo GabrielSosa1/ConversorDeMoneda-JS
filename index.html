@@ -11,34 +11,33 @@
 <body>
     <div id="inicioPage">
         <h1>Bienvenido a nuestro conversor de moneda</h1>
-    <div id="conversorPage">
-        <div>
-            <label for="cantidad">Cantidad:</label>
-            <input type="number" id="cantidad" placeholder="Ingrese la cantidad">
+        <div id="conversorPage">
+            <div>
+                <label for="cantidad">Cantidad:</label>
+                <input type="number" id="cantidad" placeholder="Ingrese la cantidad">
+            </div>
+            <div>
+                <label for="monedaOrigen">Moneda de origen:</label>
+                <select id="monedaOrigen">
+                    <option value="ars">Pesos (ARS)</option>
+                    <option value="usd">Dólares (USD)</option>
+                    <option value="eur">Euros (EUR)</option>
+                </select>
+            </div>
+            <div>
+                <label for="monedaDestino">Moneda de destino:</label>
+                <select id="monedaDestino">
+                    <option value="usd">Dólares (USD)</option>
+                    <option value="eur">Euros (EUR)</option>
+                    <option value="ars">Pesos (ARS)</option>
+                </select>
+            </div>
+            <button id="convertirBtn">Convertir</button>
+            <p id="resultado"></p>
+            <h2>Historial de Conversiones:</h2>
+            <ul id="historial"></ul>
         </div>
-        <div>
-            <label for="monedaOrigen">Moneda de origen:</label>
-            <select id="monedaOrigen">
-                <option value="ars">Pesos (ARS)</option>
-                <option value="usd">Dólares (USD)</option>
-                <option value="eur">Euros (EUR)</option>
-            </select>
-        </div>
-        <div>
-            <label for="monedaDestino">Moneda de destino:</label>
-            <select id="monedaDestino">
-                <option value="usd">Dólares (USD)</option>
-                <option value="eur">Euros (EUR)</option>
-                <option value="ars">Pesos (ARS)</option>
-            </select>
-        </div>
-        <button id="convertirBtn">Convertir</button>
-        <p id="resultado"></p>
-        <h2>Historial de Conversiones:</h2>
-        <ul id="historial"></ul>
-    </div>
-
-    <script src="./JS/main.js"></script>
+        <script src="./JS/main.js"></script>
 </body>
 
 </html>
