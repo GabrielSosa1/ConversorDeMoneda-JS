@@ -51,6 +51,17 @@ function imprimirHistorialYConversionesEnConsola() {
     console.log("------------");
 }
 
+function imprimirHistorialPrestamosEnConsola() {
+    console.group("Préstamos Realizados");
+
+    historialPrestamos.forEach((prestamo) => {
+        const hora = new Date().toLocaleTimeString();
+        console.log(`${hora}: Préstamo de $${prestamo.monto} con una tasa de interés del ${prestamo.tasa}% a ${prestamo.plazo} meses`);
+    });
+
+    console.groupEnd();
+}
+
 function convertir() {
     const cantidad = parseFloat(document.getElementById('cantidad').value);
     const monedaOrigen = document.getElementById('monedaOrigen').value;
@@ -59,16 +70,22 @@ function convertir() {
 
     if (!isNaN(cantidad) && tasasDeCambio.hasOwnProperty(monedaOrigen) && tasasDeCambio.hasOwnProperty(monedaDestino)) {
         let resultado;
+        let monedaOrigenFinal, monedaDestinoFinal;
+
         if (direccionConversion === "inversa") {
             resultado = (cantidad * (tasasDeCambio[monedaDestino] / tasasDeCambio[monedaOrigen])).toFixed(2);
+            monedaOrigenFinal = monedaDestino.toUpperCase();
+            monedaDestinoFinal = monedaOrigen.toUpperCase();
         } else {
             resultado = (cantidad * (tasasDeCambio[monedaOrigen] / tasasDeCambio[monedaDestino])).toFixed(2);
+            monedaOrigenFinal = monedaOrigen.toUpperCase();
+            monedaDestinoFinal = monedaDestino.toUpperCase();
         }
 
         const conversion = {
             cantidad: cantidad,
-            monedaOrigen: monedaOrigen.toUpperCase(),
-            monedaDestino: monedaDestino.toUpperCase(),
+            monedaOrigen: monedaOrigenFinal,
+            monedaDestino: monedaDestinoFinal,
             resultado: resultado
         };
         historialConversiones.push(conversion);
@@ -79,7 +96,7 @@ function convertir() {
 
         imprimirHistorialYConversionesEnConsola();
 
-        mostrarMensajeEnPaginaYConsola(`Resultado de la conversión: ${resultado} ${monedaDestino}`, 'resultadoConversion');
+        mostrarMensajeEnPaginaYConsola(`Resultado de la conversión: ${resultado} ${monedaDestinoFinal}`, 'resultadoConversion');
     } else {
         mostrarMensajeEnPaginaYConsola("Por favor, ingrese una cantidad válida y seleccione monedas de origen y destino válidas.", 'resultadoConversion');
     }
@@ -108,7 +125,10 @@ function calcularPrestamo() {
             };
             historialPrestamos.push(prestamo);
 
+            localStorage.setItem('historialPrestamos', JSON.stringify(historialPrestamos));
+
             mostrarHistorialPrestamos();
+            imprimirHistorialPrestamosEnConsola(); // Imprimir el historial de préstamos en la consola
         }
     }
 }
@@ -124,12 +144,14 @@ window.addEventListener('DOMContentLoaded', () => {
     if (historialGuardado) {
         historialConversiones = JSON.parse(historialGuardado);
         mostrarHistorial();
+        imprimirHistorialYConversionesEnConsola();
     }
 
     const historialPrestamosGuardado = localStorage.getItem('historialPrestamos');
     if (historialPrestamosGuardado) {
         historialPrestamos = JSON.parse(historialPrestamosGuardado);
         mostrarHistorialPrestamos();
+        imprimirHistorialPrestamosEnConsola(); // Imprimir el historial de préstamos en la consola
     }
 });
 
@@ -137,6 +159,10 @@ window.addEventListener('beforeunload', () => {
     localStorage.setItem('historialConversiones', JSON.stringify(historialConversiones));
     localStorage.setItem('historialPrestamos', JSON.stringify(historialPrestamos));
 });
+
+
+
+
 
 
 
