@@ -1,20 +1,18 @@
-console.log("Conversor inicio");
+console.log("Conversor y Simulador inicio");
 console.log("----------");
 
-// Objeto para manejar las tasas de cambio
 const tasasDeCambio = {
     ars: 1,
-    usd: 740, // 1 USD equivale a 740 pesos argentinos
-    eur: 788, // 1 EUR equivale a 788 pesos argentinos
+    usd: 740,
+    eur: 788,
 };
 
-// Array para almacenar el historial de conversiones
 let historialConversiones = [];
+let historialPrestamos = [];
 
-// Función para mostrar el historial en la página
 function mostrarHistorial() {
     const historialUl = document.getElementById('historial');
-    historialUl.innerHTML = ''; // Limpiamos el contenido anterior
+    historialUl.innerHTML = '';
 
     historialConversiones.forEach((conversion, index) => {
         const li = document.createElement('li');
@@ -23,14 +21,23 @@ function mostrarHistorial() {
     });
 }
 
-// Función para mostrar un mensaje en la página web y en la consola
-function mostrarMensajeEnPaginaYConsola(mensaje) {
-    const resultadoDiv = document.getElementById('resultado');
-    resultadoDiv.textContent = mensaje;
-    console.log(mensaje); // Imprimir mensaje en la consola
+function mostrarHistorialPrestamos() {
+    const historialUl = document.getElementById('historialPrestamos');
+    historialUl.innerHTML = '';
+
+    historialPrestamos.forEach((prestamo, index) => {
+        const li = document.createElement('li');
+        li.textContent = `Préstamo ${index + 1}: Monto: $${prestamo.monto}, Tasa de Interés: ${prestamo.tasa}% Plazo: ${prestamo.plazo} meses`;
+        historialUl.appendChild(li);
+    });
 }
 
-// Función para imprimir las conversiones realizadas en la consola
+function mostrarMensajeEnPaginaYConsola(mensaje, elementoId) {
+    const resultadoDiv = document.getElementById(elementoId);
+    resultadoDiv.textContent = mensaje;
+    console.log(mensaje);
+}
+
 function imprimirHistorialYConversionesEnConsola() {
     console.group("Conversiones Realizadas");
 
@@ -44,16 +51,20 @@ function imprimirHistorialYConversionesEnConsola() {
     console.log("------------");
 }
 
-// Función para realizar la conversión
 function convertir() {
     const cantidad = parseFloat(document.getElementById('cantidad').value);
     const monedaOrigen = document.getElementById('monedaOrigen').value;
     const monedaDestino = document.getElementById('monedaDestino').value;
+    const direccionConversion = document.getElementById('direccionConversion').value;
 
     if (!isNaN(cantidad) && tasasDeCambio.hasOwnProperty(monedaOrigen) && tasasDeCambio.hasOwnProperty(monedaDestino)) {
-        const resultado = (cantidad * (tasasDeCambio[monedaOrigen] / tasasDeCambio[monedaDestino])).toFixed(2);
+        let resultado;
+        if (direccionConversion === "inversa") {
+            resultado = (cantidad * (tasasDeCambio[monedaDestino] / tasasDeCambio[monedaOrigen])).toFixed(2);
+        } else {
+            resultado = (cantidad * (tasasDeCambio[monedaOrigen] / tasasDeCambio[monedaDestino])).toFixed(2);
+        }
 
-        // Agrega la conversión al historial
         const conversion = {
             cantidad: cantidad,
             monedaOrigen: monedaOrigen.toUpperCase(),
@@ -62,36 +73,89 @@ function convertir() {
         };
         historialConversiones.push(conversion);
 
-        // Actualiza el historial en el almacenamiento local (localStorage)
         localStorage.setItem('historialConversiones', JSON.stringify(historialConversiones));
 
         mostrarHistorial();
 
-        // Llama a la función para imprimir las conversiones realizadas en la consola
         imprimirHistorialYConversionesEnConsola();
+
+        mostrarMensajeEnPaginaYConsola(`Resultado de la conversión: ${resultado} ${monedaDestino}`, 'resultadoConversion');
     } else {
-        mostrarMensajeEnPaginaYConsola("Por favor, ingrese una cantidad válida y seleccione monedas de origen y destino válidas.");
+        mostrarMensajeEnPaginaYConsola("Por favor, ingrese una cantidad válida y seleccione monedas de origen y destino válidas.", 'resultadoConversion');
     }
 }
 
-// Manejo de eventos
+function calcularPrestamo() {
+    const montoPrestamo = parseFloat(document.getElementById('montoPrestamo').value);
+    const tasaInteres = parseFloat(document.getElementById('tasaInteres').value) / 100;
+    const plazoPrestamo = parseInt(document.getElementById('plazoPrestamo').value);
+
+    if (isNaN(montoPrestamo) || isNaN(plazoPrestamo)) {
+        mostrarMensajeEnPaginaYConsola("Por favor, complete todos los campos.", 'resultadoPrestamo');
+    } else {
+        if (tasaInteres === 0) {
+            mostrarMensajeEnPaginaYConsola("La tasa de interés es 0, por lo que no se generan intereses. Total a Pagar: 0", 'resultadoPrestamo');
+        } else {
+            const cuotaMensual = (montoPrestamo * tasaInteres * (Math.pow(1 + tasaInteres, plazoPrestamo))) / (Math.pow(1 + tasaInteres, plazoPrestamo) - 1);
+            const totalAPagar = cuotaMensual * plazoPrestamo;
+
+            mostrarMensajeEnPaginaYConsola(`Cuota Mensual: $${cuotaMensual.toFixed(2)}, Total a Pagar: $${totalAPagar.toFixed(2)}`, 'resultadoPrestamo');
+
+            const prestamo = {
+                monto: montoPrestamo.toFixed(2),
+                tasa: tasaInteres,
+                plazo: plazoPrestamo
+            };
+            historialPrestamos.push(prestamo);
+
+            mostrarHistorialPrestamos();
+        }
+    }
+}
+
 const convertirBtn = document.getElementById('convertirBtn');
 convertirBtn.addEventListener('click', convertir);
 
-// Cargar el historial al cargar la página
-window.addEventListener('load', () => {
-    // Verifica si el historial existe en el almacenamiento local
+const calcularPrestamoBtn = document.getElementById('calcularPrestamoBtn');
+calcularPrestamoBtn.addEventListener('click', calcularPrestamo);
+
+window.addEventListener('DOMContentLoaded', () => {
     const historialGuardado = localStorage.getItem('historialConversiones');
     if (historialGuardado) {
         historialConversiones = JSON.parse(historialGuardado);
         mostrarHistorial();
     }
+
+    const historialPrestamosGuardado = localStorage.getItem('historialPrestamos');
+    if (historialPrestamosGuardado) {
+        historialPrestamos = JSON.parse(historialPrestamosGuardado);
+        mostrarHistorialPrestamos();
+    }
 });
 
-// Borra el historial al recargar la página
 window.addEventListener('beforeunload', () => {
-    localStorage.removeItem('historialConversiones');
+    localStorage.setItem('historialConversiones', JSON.stringify(historialConversiones));
+    localStorage.setItem('historialPrestamos', JSON.stringify(historialPrestamos));
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

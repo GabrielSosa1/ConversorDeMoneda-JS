@@ -17,6 +17,13 @@
                 <input type="number" id="cantidad" placeholder="Ingrese la cantidad">
             </div>
             <div>
+                <label for="direccionConversion">Dirección de la Conversión:</label>
+                <select id="direccionConversion">
+                    <option value="normal">De Moneda Origen a Moneda Destino</option>
+                    <option value="inversa">De Moneda Destino a Moneda Origen</option>
+                </select>
+            </div>
+            <div>
                 <label for="monedaOrigen">Moneda de origen:</label>
                 <select id="monedaOrigen">
                     <option value="ars">Pesos (ARS)</option>
@@ -33,11 +40,25 @@
                 </select>
             </div>
             <button id="convertirBtn">Convertir</button>
-            <p id="resultado"></p>
+            <p id="resultadoConversion">Resultado de la conversión:</p>
             <h2>Historial de Conversiones:</h2>
             <ul id="historial"></ul>
         </div>
-        <script src="./JS/main.js"></script>
+        <div id="simuladorPrestamo">
+            <h2>Simulador de Préstamos</h2>
+            <label for="montoPrestamo">Monto del préstamo (en pesos argentinos):</label>
+            <input type="number" id="montoPrestamo" placeholder="Monto del préstamo">
+            <label for="tasaInteres">Tasa de interés (%):</label>
+            <input type="number" id="tasaInteres" placeholder="Tasa de interés">
+            <label for="plazoPrestamo">Plazo del préstamo (meses):</label>
+            <input type="number" id="plazoPrestamo" placeholder="Plazo del préstamo">
+            <button id="calcularPrestamoBtn">Calcular Préstamo</button>
+            <p id="resultadoPrestamo">Resultado del préstamo:</p>
+            <h2>Historial de Préstamos:</h2>
+            <ul id="historialPrestamos"></ul>
+        </div>
+    </div>
+    <script src="./JS/main.js"></script>
 </body>
 
 </html>
