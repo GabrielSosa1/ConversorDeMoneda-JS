@@ -1,9 +1,3 @@
-const tasasDeCambio = {
-    ars: 1,
-    usd: 740,
-    eur: 788,
-};
-
 let historialConversiones = [];
 let historialPrestamos = [];
 
@@ -65,13 +59,31 @@ function resultadoDePrestamo() {
     });
 }
 
+
+async function cargarTasasDeCambioDesdeAPI() { // Nueva función para cargar las tasas de cambio desde la API (el JSON)
+    try {
+        const response = await fetch('../data/datos.json'); // Reemplaza 'URL_DEL_JSON' con la URL real de tu JSON
+        if (response.ok) {
+            const tasasDeCambioJSON = await response.json();
+            return tasasDeCambioJSON.tasasDeCambio;
+        } else {
+            throw new Error('No se pudo cargar el JSON.');
+        }
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}
+
 async function convertir() {
+    const tasasDeCambio = await cargarTasasDeCambioDesdeAPI(); // Cargamos las tasas de cambio desde la API
+
     const cantidad = parseFloat(document.getElementById('cantidad').value);
     const monedaOrigen = document.getElementById('monedaOrigen').value;
     const monedaDestino = document.getElementById('monedaDestino').value;
     const direccionConversion = document.getElementById('direccionConversion').value;
 
-    if (!isNaN(cantidad) && tasasDeCambio.hasOwnProperty(monedaOrigen) && tasasDeCambio.hasOwnProperty(monedaDestino)) {
+    if (tasasDeCambio && !isNaN(cantidad) && tasasDeCambio.hasOwnProperty(monedaOrigen) && tasasDeCambio.hasOwnProperty(monedaDestino)) {
         let resultado;
         let monedaOrigenFinal, monedaDestinoFinal;
 
@@ -141,8 +153,7 @@ async function calcularPrestamo() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Muestra un SweetAlert de bienvenida
-    Swal.fire({
+    Swal.fire({ // Muestra un SweetAlert de bienvenida
         title: 'Bienvenido a nuestro simulador',
         text: '¡Bienvenido a nuestro simulador de conversiones y préstamos!',
         icon: 'info'
@@ -203,57 +214,6 @@ window.addEventListener('beforeunload', () => {
     Promise.all([guardarConversiones, guardarPrestamos]).then(() => {
     });
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
