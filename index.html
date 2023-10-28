@@ -12,12 +12,40 @@
 
 <body>
     <header>
-        <h1>Bienvenido a nuestro conversor de moneda</h1>
+        <h1>Bienvenido a nuestro simulador de conversiones y prestamos</h1>
     </header>
     <main>
         <section>
+            <div class="tarjeta">
+                <h2>Cotización de Moneda</h2>
+                <table>
+                    <tr>
+                        <td>Moneda</td>
+                        <td>Tasa de Cambio</td>
+                    </tr>
+                    <tr>
+                        <td>USD</td>
+                        <td>960</td>
+                    </tr>
+                    <tr>
+                        <td>EUR</td>
+                        <td>1015</td>
+                    </tr>
+                    <tr>
+                        <td>GBP</td>
+                        <td>1170</td>
+                    </tr>
+                    <tr>
+                        <td>BRL</td>
+                        <td>192</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+        <section>
             <div id="inicioPage">
                 <div id="conversorPage">
+                    <h2>Simulador de conversiones</h2>
                     <div>
                         <label for="cantidad">Cantidad:</label>
                         <input type="number" id="cantidad" placeholder="Ingrese la cantidad">
@@ -35,6 +63,8 @@
                             <option value="ars">Pesos (ARS)</option>
                             <option value="usd">Dólares (USD)</option>
                             <option value="eur">Euros (EUR)</option>
+                            <option value="gbp">Libra Esterlina (GBP)</option>
+                            <option value="brl">Real (BRL)</option>
                         </select>
                     </div>
                     <div>
@@ -43,11 +73,13 @@
                             <option value="usd">Dólares (USD)</option>
                             <option value="eur">Euros (EUR)</option>
                             <option value="ars">Pesos (ARS)</option>
+                            <option value="gbp">Libra Esterlina (GBP)</option>
+                            <option value="brl">Real (BRL)</option>
                         </select>
                     </div>
                     <button id="convertirBtn">Convertir</button>
                     <p id="resultadoConversion">Resultado de la conversión:</p>
-                    <h2>Historial de Conversiones:</h2>
+                    <h3>Historial de Conversiones:</h3>
                     <ul id="historial"></ul>
                 </div>
                 <div id="simuladorPrestamo">
@@ -60,10 +92,13 @@
                     <input type="number" id="plazoPrestamo" placeholder="Plazo del préstamo">
                     <button id="calcularPrestamoBtn">Calcular Préstamo</button>
                     <p id="resultadoPrestamo">Resultado del préstamo:</p>
-                    <h2>Historial de Préstamos:</h2>
+                    <h3>Historial de Préstamos:</h3>
                     <ul id="historialPrestamos"></ul>
                 </div>
             </div>
         </section>
     </main>
+    <footer>
+        <p>GRACIAS POR UTILIZAR NUESTRO SIMULADOR</p>
+    </footer>
 </body>
