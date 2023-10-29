@@ -62,7 +62,7 @@ function resultadoDePrestamo() {
 
 async function cargarTasasDeCambioDesdeAPI() { 
     try {
-        const response = await fetch('https://raw.githubusercontent.com/GabrielSosa1/JSON/master/data.json'); // Reemplaza 'URL_DEL_JSON' con la URL real de tu JSON
+        const response = await fetch('https://raw.githubusercontent.com/GabrielSosa1/JSON/master/data.json'); 
         if (response.ok) {
             const tasasDeCambioJSON = await response.json();
             return tasasDeCambioJSON.tasasDeCambio;
@@ -76,7 +76,7 @@ async function cargarTasasDeCambioDesdeAPI() {
 }
 
 async function convertir() {
-    const tasasDeCambio = await cargarTasasDeCambioDesdeAPI(); // Cargamos las tasas de cambio desde la API
+    const tasasDeCambio = await cargarTasasDeCambioDesdeAPI(); 
 
     const cantidad = parseFloat(document.getElementById('cantidad').value);
     const monedaOrigen = document.getElementById('monedaOrigen').value;
@@ -153,7 +153,7 @@ async function calcularPrestamo() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    Swal.fire({ // Muestra un SweetAlert de bienvenida
+    Swal.fire({ 
         title: 'Bienvenido a nuestro simulador',
         text: '¡Bienvenido a nuestro simulador de conversiones y préstamos!',
         icon: 'info'
