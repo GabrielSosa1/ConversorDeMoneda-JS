@@ -62,7 +62,7 @@ function resultadoDePrestamo() {
 
 async function cargarTasasDeCambioDesdeAPI() { 
     try {
-        const response = await fetch('./data/datos.json'); // Reemplaza 'URL_DEL_JSON' con la URL real de tu JSON
+        const response = await fetch('https://raw.githubusercontent.com/GabrielSosa1/JSON/master/data.json'); // Reemplaza 'URL_DEL_JSON' con la URL real de tu JSON
         if (response.ok) {
             const tasasDeCambioJSON = await response.json();
             return tasasDeCambioJSON.tasasDeCambio;
