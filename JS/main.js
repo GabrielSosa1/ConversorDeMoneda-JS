@@ -62,7 +62,7 @@ function resultadoDePrestamo() {
 
 async function cargarTasasDeCambioDesdeAPI() { 
     try {
-        const response = await fetch('../data/datos.json'); // Reemplaza 'URL_DEL_JSON' con la URL real de tu JSON
+        const response = await fetch('./data/datos.json'); // Reemplaza 'URL_DEL_JSON' con la URL real de tu JSON
         if (response.ok) {
             const tasasDeCambioJSON = await response.json();
             return tasasDeCambioJSON.tasasDeCambio;
@@ -214,9 +214,6 @@ window.addEventListener('beforeunload', () => {
     Promise.all([guardarConversiones, guardarPrestamos]).then(() => {
     });
 });
-
-
-
 
 
 
