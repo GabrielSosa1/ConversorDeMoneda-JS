@@ -60,7 +60,7 @@ function resultadoDePrestamo() {
 }
 
 
-async function cargarTasasDeCambioDesdeAPI() { // Nueva función para cargar las tasas de cambio desde la API (el JSON)
+async function cargarTasasDeCambioDesdeAPI() { 
     try {
         const response = await fetch('../data/datos.json'); // Reemplaza 'URL_DEL_JSON' con la URL real de tu JSON
         if (response.ok) {
